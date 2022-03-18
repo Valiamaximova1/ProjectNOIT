@@ -1,0 +1,51 @@
+<!DOCTYPE>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разгледай БГ</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://kit.fontawesome.com/b9fef44bb2.js" crossorigin="anonymous"></script>
+    <!--        <link rel="stylesheet" href="/fontawesome/css/all.min.css">-->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+</head>
+
+<body>
+
+
+<script src="./js/gallery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#parallax-1').parallax({imageSrc: 'img/biz-oriented-header.jpg'});
+        $('#parallax-2').parallax({imageSrc: 'img/biz-oriented-footer.jpg'});
+    });
+</script>
+</body>
+</html>
+
+<!--    <title>Bulgarian nature</title>-->
+<!--&lt;!&ndash;    <link th:href="@{https://fonts.googleapis.com/css?family=Sans}" rel="stylesheet"/>&ndash;&gt;-->
+<!--    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" /> &lt;!&ndash; https://getbootstrap.com/ &ndash;&gt;-->
+<!--    <link th:href="@{/css/all.min.css}" rel="stylesheet" type="text/css" /> &lt;!&ndash; https://fontawesome.com/ &ndash;&gt;-->
+<!--<link th:href="@{/css/templatemo-business-oriented.css}" rel="stylesheet" type="text/css" />-->
+
+
+<!--    <link href="/css/navigation.css" rel="stylesheet" type="text/css">-->
+<!--    <link href="/css/footer.css" rel="stylesheet" type="text/css">-->
+<!--    <link href="/css/login-register.css" rel="stylesheet" type="text/css">-->
+<!--    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>-->
+<!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
+<!--    <script th:src="@{/js/parallax.min.js}"></script>-->
+<!--    <script th:src="@{/js/tooplate-script.js}"></script>-->
+<!--    <script th:src="@{/js/gallery.js}"></script>-->

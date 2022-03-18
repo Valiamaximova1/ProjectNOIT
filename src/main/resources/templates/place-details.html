@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head::head"></head>
+<body class="air bg-white">
+<header th:replace="fragments/navbar::nav">
+</header>
+<input type="hidden" name="placeId" id="placeId" th:value="${place.id}">
+
+<main>
+    <div class="container col-xxl-8 px-4" th:object="${place}">
+        <div style="display: none" id="coordinates" th:text="|*{latitude} *{longitude}|"></div>
+        <div style="display: none" id="name" th:text="*{name}"></div>
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img th:src="*{getImageUrl()}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+                     height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-6 fw-bold lh-1 mb-3" th:text="*{name}"></h1>
+                <h5 class="text-primary" th:text="|Тип: *{type}|"><span class="text-muted me-2">Тип:</span></h5>
+                <h6 class="text-warning" th:text="|Място: *{city.name}|"><span class="text-muted me-2">Място:</span>София
+                </h6>
+                <h6 class="text-info" th:if="*{price == 0.00 }"><span class="text-muted me-2">Вход:</span>Безплатен</h6>
+                <h6 class="text-info" th:min="0.0" th:unless="*{price <= 0.01 }" th:text="|Вход: *{price}лв|"><span
+                        class="text-muted me-2">Вход:</span></h6>
+                <h6 class="text-info" th:text="|Време за престой: *{time} час|"><span class="text-muted me-2">Време за престой:</span>
+                </h6>
+                <h6 class="text-light-secondary" th:text="|Рейтинг: *{rating}|"><span
+                        class="text-muted me-2">Рейтинг:</span></h6>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+                    <a class="btn btn-primary btn-lg px-4 me-md-2" sec:authorize="isAuthenticated()"
+                       th:href="@{/places/{id}/edit(id=*{id})}">Редактирай</a>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/places/{id}(id=*{id})}" th:method="delete">
+                        <input type="submit" class="btn btn-outline-secondary btn-lg px-4" value="Изтрий"/>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <section class="py-4">
+            <h3 class="text-primary">Описание</h3>
+            <p class="lh-lg" th:text="*{description}"></p>
+            <p class="fst-italic text-muted" th:if="*{naturalSites == true}"
+               th:text="|Обекта е част от 100-те национални обекта|"><i
+                    class="fa-solid fa-signs-post fa-lg me-2 text-secondary"></i>
+            </p>
+        </section>
+        <div class="py-4">
+            <div class="d-flex flex-wrap align-items-md-end">
+                <h3 class="text-primary d-block d-lg-inline-block" style="height: 40px;">Местополжение</h3>
+                <p class="text-muted d-block d-lg-inline-block ms-md-auto small"><i
+                        class="fa-solid fa-map-pin me-1"></i><span class="d-none d-lg-inline-block">Kоординати:</span>
+                    <span class="text-warning" th:text="*{latitude}">42.758754</span>, <span class="text-warning"
+                                                                                             th:text="*{longitude}"></span>
+                </p>
+            </div>
+            <div id="map" style="height: 450px"></div>
+        </div>
+        <!-- Comments -->
+        <div class="col-lg-8 py-5" sec:authorize="isAuthenticated()">
+            <h4 class="text-primary">Добави коментар</h4>
+            <form id="commentForm" method="POST" th:action="@{/api/{placeId}/comments(placeId=${place.id})}">
+                <div class="mb-3">
+                    <label for="message" class="form-label text-muted">Коментар</label>
+                    <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+                    <small id="messageError" class="invalid-feedback">
+                        Съобщението трябва да бъде поне 10 символа.
+                    </small>
+                </div>
+
+                <input type="submit" class="btn btn-outline-primary btn-sm mb-3" id="postComment"
+                       value="Публикувай коментар"/>
+            </form>
+            <div class="py-4">
+                <span id="commentCtnr"><!-- Comments section, filled in by script --></span>
+
+                <p style="visibility: hidden">GPX Download: <a id="gpxDownload"></a></p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+
+<script>
+    let coordinates = document.getElementById("coordinates").textContent;
+    let name = document.getElementById("name").textContent;
+    let arr = coordinates.split(" ");
+
+    var map = L.map('map').setView([arr[0], arr[1]], 7);
+
+    var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(map);
+
+    //Add Marker - place coordinates
+    var marker = L.marker([arr[0], arr[1]]).addTo(map).bindPopup('<b>' + name + '</b>').openPopup();
+
+</script>
+<script th:src="@{/js/comment.js}"></script>
+</body>
+</html>

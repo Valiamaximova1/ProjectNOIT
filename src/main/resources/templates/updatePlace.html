@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body class="air">
+<header th:replace="fragments/navbar::nav">
+</header>
+<div class="container w-960">
+    <main>
+        <div class="py-5 text-center">
+            <h2 class="text-primary">Редактиране на обект</h2>
+            <p class="lead text-muted">Попълнете формата с валидни данни.</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <p class="small">Регистрацията в <strong>Разгледай БГ</strong> Ви позволява да създавате
+                    забележителности, да добавяте описание на забележителност, да качвате снимки от мястото, да
+                    въвеждате информация за обекта и др.</p>
+                <p class="small">Регистрацията Ви да възможност да редактирате вашия потребителски профил и въведените
+                    забележителности.</p>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <form th:object="${placeModel}"
+                      th:action="@{/places/{id}/edit(id=*{id})}"
+                      th:method="patch" id="edit-form" class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-12">
+                            <label class="form-label" for="name">Име</label>
+                            <input th:field="*{name}" th:errorclass="is-invalid" class="form-control" id="name"
+                                   type="text"
+                                   placeholder="Въведи име на обект" name="place">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Името на обекта е задължително.
+                            </p>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label" for="description">Описание</label>
+                            <textarea th:text="*{description}" th:errorclass="is-invalid" class="form-control"
+                                      id="description" type="text"
+                                      placeholder="Въведи описание" name="description"></textarea>
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Описанието е задължително.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="price">Цена на вход</label>
+                            <input th:field="*{price}" th:errorclass="is-invalid" class="form-control" id="price"
+                                   type="number" step=".01"
+                                   placeholder="Въведете цена"
+                                   name="price">
+                            <small id="priceHelpInline" class="invalid-feedback errors alert alert-danger">
+                                Въведете валидна цена.</small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="time">Време за престой</label>
+                            <input th:field="*{time}" th:errorclass="is-invalid" class="form-control" id="time"
+                                   type="number" step=".01"
+                                   placeholder="Въведете време за престой в часове"
+                                   name="time">
+                            <small id="timeHelpInline" class="invalid-feedback errors alert alert-danger">
+                                Въведете валиден час.</small>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label" for="imageUrl">Снимка</label>
+                            <input th:field="*{imageUrl}" th:errorclass="is-invalid" class="form-control" id="imageUrl"
+                                   type="text"
+                                   placeholder="Enter imageUrl" name="imageUrl">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Пътят до снимката е задължителен.
+                            </p>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label" for="rating">Рейтинг</label>
+                            <select id="rating" name="rating" class="form-control" th:errorclass="is-invalid">
+                                <option value="">- Избери рейтинг -</option>
+                                <option th:each="rating : ${ratingEnum}"
+                                        th:value="${rating}"
+                                        th:text="${rating}"
+                                        th:selected="${rating} == *{rating}"> Рейтинг
+                                </option>
+                            </select>
+                            <p class="invalid-feedback errors alert alert-danger">
+                                This field is required.
+                            </p>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label" for="type">Тип</label>
+                            <select id="type" name="type" th:errorclass="is-invalid" class="form-control">
+                                <option value="">- Избери тип -</option>
+                                <option th:each="type : ${types}"
+                                        th:value="${type}"
+                                        th:text="${type}"
+                                        th:selected="${type} == *{type}"> Тип
+                                </option>
+                            </select>
+
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Това поле е задължително.
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+                    <p class="mb-0">GPS координати</p>
+
+                    <div class="col-sm-6">
+                        <div class="row mb-3">
+                            <label for="latitude" class="col-3 col-form-label">Ширина</label>
+                            <input th:field="*{latitude}" th:errorclass="is-invalid" id="latitude" type="text"
+                                   placeholder="Въведи ширина на обект" name="place" class="form-control">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Полето е задължително.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row mb-3">
+                            <label for="longitude" class="col-3 col-form-label">Дължина</label>
+                            <input th:field="*{longitude}" th:errorclass="is-invalid" id="longitude" type="text"
+                                   placeholder="Въведи дължина на обект" name="place" class="form-control">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Полето е задължително.
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+                    <div class="form-check">
+                        <input th:field="*{naturalSites}" th:errorclass="is-invalid" type="checkbox"
+                               class="form-check-input" id="save-info">
+                        <label class="form-check-label" for="save-info">Част е от 100 национални туристически
+                            обекта</label>
+                    </div>
+
+
+                    <input type="submit" class="w-100 btn btn-primary btn-lg mt-4 mb-5" value="Редактирай обект">
+
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>
+
+
+

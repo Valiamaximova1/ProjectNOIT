@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::head"></head>
+<body class="air">
+<header th:replace="fragments/navbar::nav">
+</header>
+
+<main th:object="${city}">
+    <div class="container col-xxl-8 px-4">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img th:src="*{getImageUrl()}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+                     height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-6 fw-bold lh-1 mb-3" th:text="|*{name}|"></h1>
+                <h5 class="text-primary" th:text="|Приблизително население: *{population}|"><span
+                        class="text-muted me-2"></span></h5>
+                <h6 class="text-info" th:text="|Кмет: *{mayor}|"><span class="text-muted me-2"></span></h6>
+                <h6 class="text-info" th:text="|Разположение:  *{areaOfBg}|"><span class="text-muted me-2"></span>1
+                    час</h6>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+                    <a class="btn btn-primary btn-lg px-4 me-md-2"
+                       th:href="@{/cities/{id}/edit(id=*{id})}" sec:authorize="hasRole('ADMIN')">Редактирай</a>
+                    <form th:action="@{/cities/{id}(id=*{id})}" sec:authorize="hasRole('ADMIN')" th:method="delete">
+                        <input type="submit" class="btn btn-outline-secondary btn-lg px-4" value="Изтрий"/>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <section class="py-4">
+            <h3 class="text-primary">Описание</h3>
+            <p class="lh-lg" th:text="*{description}"></p>
+        </section>
+    </div>
+</main>
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

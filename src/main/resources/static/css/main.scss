@@ -1,0 +1,161 @@
+// Import fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+// Default variable overrides
+$primary: #277370;    
+$secondary: #7BCDCB;   
+$success: #419d59;  
+$info: #27383d;   
+$warning: #EE951E; 
+$danger: #f44336;
+$light: #F8F6F6;  
+$dark: #27383D; 
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
+
+// Create your own map
+$custom-colors: (
+  "light-secondary": rgb(192, 174, 174)
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+$body-bg: #F8F6F6;
+$body-color: #27383D;
+
+$link-color:                              $primary;
+$link-decoration:                         none;
+$link-shade-percentage:                   20%;
+$link-hover-color:                        $warning;
+$link-hover-decoration:                   underline;
+
+$font-family-sans-serif: 'Montserrat Alternates', sans-serif;
+
+.nav-link {
+  background: none;
+ 
+  &:hover,
+  &:focus {
+    background: rgba(255, 255, 255, .1);
+    border-radius: .2rem;
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .swatch-#{$color} {
+    color: color-contrast($value);
+  }
+}
+
+/* Form style */
+$input-bg: white;
+$input-btn-focus-width: .2rem;
+$input-btn-focus-color-opacity: .25;
+$input-btn-focus-blur: .25rem;
+
+
+// Custom.scss
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.air{
+  padding-top: 5rem;
+}
+
+.w-960 {
+  max-width: 960px;
+}
+
+
+// Additional custom code
+.navbar-brand{
+  font-size: 1.5rem;
+  font-family: 'Pacifico', cursive;
+}
+
+/* Background style */
+.bg-overlay {
+  background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0,.6)), url("/images/rila-lakes.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  color: $white;
+  height: 100%;
+  padding-top: 60px;
+}
+
+/* Text style */
+
+
+/* Icons style */
+
+.icon-style-1{ 
+  border-radius: 0.25em; 
+  padding: 0.5em;
+  color: $white;
+  background-color: $primary;
+}
+
+.custom-element {
+  color: color-contrast(#000);
+}
+
+
+/* Signin form */
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin{
+  .checkbox {
+    font-weight: 400;
+  }
+}
+
+.form-signin{
+  .form-floating:focus-within {
+    z-index: 2;
+  }
+} 
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: $white;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: $white;
+}
+
+/* Map style */
+
+.leaflet-container {
+  height: 400px;
+  width: 600px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#map { 
+  height: 100%; 
+  width: 100vw;
+}

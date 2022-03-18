@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body class="air">
+<header th:replace="fragments/navbar::nav">
+</header>
+<div class="container w-960">
+    <main>
+        <div class="py-5 text-center">
+            <h2 class="text-primary">Редактиране на област</h2>
+            <p class="lead text-muted">Попълнете формата с валидни данни.</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <p class="small">Редактиране в <strong>Разгледай БГ</strong> Ви позволява да редактирате област, ако има информация, кочто е невярна или непълна.</p>
+                <p class="small">Редактирайте области и ни помагайте да подобряваме сайта!</p>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <form th:object="${cityModel}"
+                      th:action="@{/cities/{id}/edit(id=*{id})}"
+                      th:method="patch" id="edit-form" class="needs-validation" novalidate>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label" for="title">Име</label>
+                            <input th:field="*{name}" th:errorclass="is-invalid" class="form-control" id="title"
+                                   type="text"
+                                   placeholder="Въведете името на областта" name="city">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Името на областта е задължително.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="population">Население</label>
+                            <input th:field="*{population}" th:errorclass="is-invalid" id="population" type="text"
+                                   placeholder="Въведи население" name="population" class="form-control">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Това поле е задължително.
+                            </p>
+
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label class="form-label" for="title">Описание</label>
+                            <input th:field="*{description}" th:errorclass="is-invalid" class="form-control"
+                                   id="description" type="text"
+                                   placeholder="Въведи описание" name="description">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Описанието е задължително.
+                            </p>
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <label class="form-label" for="title">Снимка</label>
+                            <input th:field="*{imageUrl}" th:errorclass="is-invalid" id="imageUrl" type="text"
+                                   placeholder="Въведи път до снимката" name="imageUrl" class="form-control">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Пътят до снимката е задължителен.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="title">Кмет</label>
+                            <input th:field="*{mayor}" th:errorclass="is-invalid" id="mayor" type="text"
+                                   placeholder="Въведи кмет" name="mayor" class="form-control">
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Това поле е задължително.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="title">Местоположение</label>
+                            <select id="areaOfBg" name="areaOfBg" th:errorclass="is-invalid" class="form-control">
+                                <option value="">- Избери местоположение -</option>
+                                <option th:each="areaOfBg : ${areaOfBg}"
+                                        th:value="${areaOfBg}"
+                                        th:text="${areaOfBg}"
+                                        th:selected="${areaOfBg} == *{areaOfBg}"> Местоположение
+                                </option>
+                            </select>
+                            <p class="invalid-feedback errors alert alert-danger">
+                                Това поле е задължително.
+                            </p>
+                        </div>
+                    </div>
+                    <input type="submit" class="w-100 btn btn-primary btn-lg mt-4 mb-5" value="Редактирай област">
+                </form>
+
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

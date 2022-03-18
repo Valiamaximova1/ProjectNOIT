@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body class="air">
+<header th:replace="fragments/navbar::nav">
+</header>
+<div class="container w-960">
+    <main>
+        <div class="py-5 text-center">
+            <h2 class="text-primary">Добави обект</h2>
+            <p class="lead text-muted">Попълнете форма, за да Добави обект в Разгледай БГ</p>
+        </div>
+        <div class="col-md-8 offset-md-2">
+            <form th:action="@{/cities/add}" th:method="POST" th:object="${cityAddBindModel}" class="needs-validation"
+                  id="create-form" novalidate>
+                <div class="row g-3">
+                    <h5 class="mb-3 text-primary">Основна информация</h5>
+
+                    <div class="col-12">
+                        <label for="title" class="form-label">Име на забележителност</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text text-muted"><i class="fa-solid fa-location-dot"></i></span>
+                            <input th:field="*{name}" th:errorclass="is-invalid" id="title" type="text"
+                                   placeholder="Въведете име"
+                                   name="title" class="form-control">
+                            <small id="titleHelpInline" class="invalid-feedback errors alert alert-danger">
+                                Въведи валидно име на обект</small>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea th:field="*{description}" th:errorclass="is-invalid" id="description"
+                                  placeholder="Въведете описание" class="form-control" name="description"></textarea>
+                        <small id="descrHelpInline" class="invalid-feedback errors alert alert-danger">
+                            Въведи валидно описание</small>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="imageUrl" class="form-label">Добави снимка</label>
+                        <input th:text="*{imageUrl}" th:errorclass="is-invalid" class="form-control" id="imageUrl"
+                               type="text"
+                               placeholder="Въведете път до снимка" name="imageUrl">
+                        <small id="imgHelpInline" class="invalid-feedback errors alert alert-danger">
+                            Въведете валиден път</small>
+                    </div>
+
+
+                    <hr class="my-3">
+                    <h5 class="mb-3 text-primary">Допълнителна информация</h5>
+
+                    <div class="col-md-5">
+                        <label for="year" class="form-label">Население</label>
+                        <input th:field="*{population}" th:errorclass="is-invalid" id="year" type="number" step=".01"
+                               placeholder="Въведете приблизително население" class="form-control"
+                               name="population">
+                        <small id="yearHelpInline" class="invalid-feedback errors alert alert-danger">
+                            Въведете положително число.</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="mayor" class="form-label">Кмет</label>
+                        <input th:field="*{mayor}" th:errorclass="is-invalid" id="mayor" type="text"
+                               placeholder="Въведи кмет на населеното място" name="year" class="form-control">
+                        <small id="mayorHelpInline" class="invalid-feedback errors alert alert-danger">
+                            Въведете кмет</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="areaOfBg" class="form-label">Разположение</label>
+                        <select th:errorclass="is-invalid" id="areaOfBg" name="areaOfBg" class="form-select">
+                            <option value="">- Избери разположение -</option>
+                            <option th:each="c : ${T(com.example.examfinal.model.entity.enums.AreaOfBg).values()}"
+                                    th:text="${c}" th:value="${c}" th:selected="${c} == *{areaOfBg}">Избери
+                                разположение
+                            </option>
+                        </select>
+                        <p id="raitingHelpInline" class="errors alert alert-danger invalid-feedback">
+                            Това поле е задължително.
+                        </p>
+                    </div>
+                </div>
+                <input type="submit" class="w-100 btn btn-primary btn-lg mt-4 mb-5" value="Създай област">
+            </form>
+
+        </div>
+    </main>
+</div>
+
+
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

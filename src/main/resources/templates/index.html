@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head::head"></head>
+
+<body class="h-100">
+<div class="d-flex flex-column h-100 bg-overlay">
+    <header th:replace="fragments/navbar::nav">
+    </header>
+    <main class="h-100">
+        <div class="container h-100 d-flex align-items-center">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1><span class="text-warning">Посети и разгледай</span> България</h1>
+                    <p class="lead">Запознай се с полулярни и малко известни забележителности. Добави място или
+                        забележителност, което си посетил.</p>
+                    <div class="d-flex justify-content-center justify-content-lg-start">
+                        <a th:href="@{/places/all}" class="btn btn-outline-light me-2">Обекти</a>
+                        <a th:href="@{/map}" class="btn btn-outline-warning">Карта</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-sm-none d-none d-md-block d-lg-block d-xl-block d-xxl-block">
+                    <img src="/images/bulgaria-landmarks.svg" class="img-fluid mx-auto" alt="map">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</div>
+
+</body>
+</html>

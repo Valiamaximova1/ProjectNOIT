@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+
+<body class="d-flex flex-column h-100 bg-overlay">
+<header th:fragment="nav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex flex-row align-items-center mb-md-0 me-md-3 text-decoration-none" href="/">
+                <img src="/images/logo.svg" alt="logo" style="height:2rem">
+                <span class="fs-4">Разгледай БГ</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Начало</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/map}">Карта</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/places/all}" id="dropdown07XL"
+                           data-bs-toggle="dropdown" aria-expanded="false">Забележителности</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item small" th:href="@{/places/culture}"><i class="fa-solid fa-landmark me-2"></i>Културни</a>
+                            </li>
+                            <li><a class="dropdown-item small" th:href="@{/places/history}"><i class="fa-brands fa-fort-awesome me-2"></i>Исторически</a>
+                            </li>
+                            <li><a class="dropdown-item small" th:href="@{/places/nature}"><i class="fa-solid fa-mountain me-2"></i>Природни</a>
+                            </li>
+                            <li><a class="dropdown-item small" th:href="@{/places/religious}"><i class="fa-solid fa-church me-2"></i>Религиозни</a>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            </li>
+                            <li><a class="dropdown-item text-warning" th:href="@{/places/all}">Всички</a>
+                            </li>
+                            <li><a class="dropdown-item small text-primary" th:href="@{/places/add}">Добави
+                                забележителност</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item" >
+                        <a class="nav-link" th:href="@{/cities/all}">Области</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/users/all}">Всички users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/statistics}">Статистика </a>
+                    </li>
+                </ul>
+                <div class="d-flex" sec:authorize="!isAuthenticated()">
+                    <a type="button" class="btn btn-light text-dark btn-sm me-2" href="/users/login">Влез</a>
+                    <a type="button" class="btn btn-info btn-sm" href="/users/register">Регистрирай се</a>
+                </div>
+<!--                <div class="text-white" sec:authorize="isAuthenticated()">Здравей,-->
+<!--                    <th:block sec:authentication="name"></th:block>-->
+<!--                    !-->
+<!--                </div>-->
+                <div class="dropdown text-end" sec:authorize="isAuthenticated()">
+                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://blog.cpanel.com/wp-content/uploads/2019/08/user-01.png" alt="mdo" width="32" height="32" class="rounded-circle me-1">   <th:block sec:authentication="name"></th:block>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownUser1" >
+                        <li><a class="dropdown-item small" th:href="@{/places/add}">Добави</a></li>
+<!--                        <li><a class="dropdown-item small" href="#">Профил</a></li>-->
+                        <li><hr class="dropdown-divider"></li>
+<!--                        <li><a  sec:authorize="isAuthenticated()"  class="dropdown-item small"  th:action="@{/users/logout}">Изход</a></li>-->
+                        <form class="dropdown-item small" sec:authorize="isAuthenticated()" th:action="@{/users/logout}" th:method="post">
+                            <input class="nav-link" type="submit" value="Изход">
+                        </form>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

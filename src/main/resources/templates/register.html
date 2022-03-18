@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head::head"></head>
+<body class="air">
+<header th:replace="fragments/navbar::nav">
+</header>
+<div class="container w-960">
+    <main>
+        <div class="py-5 text-center">
+            <h2 class="text-primary">Форма за регистрация</h2>
+            <p class="lead text-muted">Попълнете регистрационната форма с валидни данни.</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <p class="small">Регистрацията в <strong>Разгледай БГ</strong> Ви позволява да създавате забележителности, да добавяте описание на забележителност, да качвате снимки от мястото, да въвеждате информация за обекта и др.</p>
+                <p class="small">Регистрацията Ви да възможност да редактирате вашия потребителски профил и въведените забележителности.</p>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <!-- Start registration form -->
+                <form class="needs-validation" novalidate  th:action="@{/users/register}"
+                      th:method="post"
+                      th:object="${userModel}" id="register-form">
+                    <div class="row g-3">
+
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">Име</label>
+                            <input th:field="*{firstName}" th:errorclass="is-invalid" type="text" class="form-control" id="firstName" placeholder="" required>
+                            <div class="invalid-feedback">Въведете задължително валидно име.</div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Фамилия</label>
+                            <input th:field="*{lastName}" th:errorclass="is-invalid" type="text" class="form-control" id="lastName" placeholder="" required>
+                            <div class="invalid-feedback">Въведете задължително валидна фамилия.</div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="username" class="form-label">Потребителсното име</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text text-muted"><i class="fa-solid fa-user"></i></span>
+                                <input th:field="*{username}" th:errorclass="is-invalid" type="text" class="form-control" id="username" placeholder="Псевдоним" required>
+                                <div class="invalid-feedback">Потребителсното име е задължително.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="password" class="form-label">Парола</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text text-muted"><i class="fa-solid fa-lock"></i></span>
+                                <input th:field="*{password}" th:errorclass="is-invalid" type="password" class="form-control" id="password">
+                                <div class="invalid-feedback">Въведете парола.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="rpassword" class="form-label">Повтори парола</label>
+                            <input th:field="*{confirmPassword}" th:errorclass="is-invalid" type="password" class="form-control" id="rpassword">
+                            <div class="invalid-feedback">Повторете същата парола.</div>
+
+                        </div>
+
+                    </div>
+                    <button class="w-100 btn btn-primary btn-lg mt-4 mb-5" type="submit">Регистрирай се</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

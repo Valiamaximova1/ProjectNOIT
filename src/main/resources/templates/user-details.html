@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head::head"></head>
+<body class="air bg-white">
+<header th:replace="fragments/navbar::nav">
+</header>
+<input type="hidden" name="userId" id="userId" th:value="${user.id}">
+<main>
+    <div class="container py-5">
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 text-white bg-dark rounded-3" th:object="${user}">
+                    <h2>Забележителност</h2>
+                    <p>Добавете културна, историческа, природна или религиозна забележителност от България. Направете
+                        кратко описание със снимка. Въведете GPS координати и информация за обекта.</p>
+                    <a class="btn btn-outline-light" th:href="@{/places/add}">Добави</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                    <h2>Населено място</h2>
+                    <p>Добавете град или населено място от България. Въведете описание и исторически сведения. Поставете
+                        снимка. Въведете GPS координати и допълнителна информация за населеното място.</p>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/cities/add}"
+                       class="btn btn-outline-primary">Добави</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="album py-4">
+        <div class="container border-top py-5">
+            <h2 class="mb-5 text-primary">Моите забележителности и места</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <!-- Start album item-->
+                <div class="col" th:each="c : ${places}" th:object="${c}">
+                    <div class="card shadow-sm">
+                        <img th:src="*{getImageUrl()}" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary" th:text="|*{name}|"></h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary"
+                                       sec:authorize="isAuthenticated()"
+                                       th:href="@{/places/{id}/place-details(id=*{id})}">Виж</a>
+                                    <a class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                                       th:href="@{/places/{id}/edit(id=*{id})}">Редактирай</a>
+                                </div>
+                                <small class="text-light-secondary"><i class="fa-solid fa-location-arrow me-1"></i>Културни</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

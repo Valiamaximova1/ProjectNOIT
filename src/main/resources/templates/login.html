@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head th:replace="fragments/head::head"></head>
+
+<body>
+
+<header th:replace="fragments/navbar::nav">
+</header>
+
+<body class="h-100">
+<div class="d-flex align-items-center text-center h-100 bg-light">
+    <main class="form-signin">
+        <form th:action="@{/users/login}" th:method="post">
+            <a class="navbar-brand d-flex flex-column align-items-center mb-3 text-decoration-none" href="#">
+                <img src="/images/logo-dark.svg" alt="logo" style="height:3rem">
+                <span class="fs-4"> Разгледай БГ</span>
+            </a>
+            <h1 class="h3 mb-3 fw-normal">Вход</h1>
+            <p th:if="${bad_credentials}" class="errors alert alert-danger">
+                Невалидно име или парола.
+            </p>
+            <div class="form-floating">
+                <input th:value="${username}"  placeholder="Въведи никнейм" name="username"
+                       type="text" min="2" max="50" class="form-control" id="floatingInput" >
+                <label for="floatingInput">Име</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password">Парола</label>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Запомни ме
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Влез</button>
+            <p class="mt-5 mb-3 text-muted small">&copy; 2022, Разгледай БГ</p>
+        </form>
+    </main>
+
+
+<!--    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
+
+</div>
+</body>
+
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

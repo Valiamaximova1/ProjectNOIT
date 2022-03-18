@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::head"></head>
+<body>
+<header th:replace="fragments/navbar::nav">
+</header>
+
+<main>
+    <section id="meme-feed">
+        <h1 class="container">Всички потребители
+            <br>
+            <br>
+
+            <hr class="container">
+        </h1>
+
+        <div class="container">
+            <section class="col-lg-6 mb-lg-0 mb-5">
+                <div th:each="u : ${usersAll}" th:object="${u}" class="tm-intro">
+                    <h4 th:text="|ID: *{id}|"></h4>
+                    <h4 th:text="|Име: *{username}|"></h4>
+
+
+                    <br>
+                    <a th:href="@{/users/{id}/user-details(id=*{id})}" class="btn btn-primary">Виж още</a>
+                    <br>
+                    <h1 class="container">
+                        <hr class="mb-5 tm-hr">
+                    </h1>
+                    <br>
+
+                </div>
+            </section>
+        </div>
+
+</main>
+<footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</body>
+</html>

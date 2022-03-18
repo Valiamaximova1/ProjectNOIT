@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      class="h-100">
+<head th:replace="fragments/head::head">
+
+</head>
+
+<body class="h-100">
+<div class="d-flex flex-column h-100 ">
+
+    <header th:replace="fragments/navbar::nav">
+    </header>
+
+    <main class="h-100" style="padding-top: 3.62rem">
+        <div id="map">
+
+        </div>
+
+        <div style="display: none" id="mapMarkers" th:each="c : ${places}" th:object="${c}">
+
+            <span id="idName" th:text="|*{id}, *{name} |"></span>
+            <div id="coordinates" th:text="|*{latitude} *{longitude}|"></div>
+
+        </div>
+    </main>
+
+
+    <footer class="container-fluid" th:replace="fragments/footer::footer"></footer>
+</div>
+<script>
+    var places = L.layerGroup();
+    let le = document.querySelectorAll("#mapMarkers span");
+    let r = document.querySelectorAll("#mapMarkers div");
+
+    for (let i = 0; i < le.length; i++) {
+let item = le[i].innerHTML;
+        let item1 = r[i].innerHTML;
+        let nameId = item.split(", ");
+        let coordinates = item1.split(" ");
+
+         L.marker([coordinates[0], coordinates[1]]).bindPopup('<a href="/places/'+nameId[0]+'/place-details" >'+nameId[1]+'</a>').addTo(places);
+    }
+
+
+    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+    var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var navigation = L.tileLayer(mbUrl, {id: 'mapbox/navigation-day-v1', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+    //Bulgaria location, zoom level and default map
+    var map = L.map('map', {
+        center: [42.758754, 25.230103],
+        zoom: 8,
+        layers: [grayscale, places]
+    });
+
+    var baseLayers = {
+        'Светла карта': grayscale,
+        'Карта с улици': streets,
+        'Сателит': satellite,
+        'Навигация': navigation
+    };
+
+    var overlays = {
+        'Забележителности': places
+    };
+
+    var layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+</script>
+<!--<script>-->
+<!--    // var places = L.layerGroup();-->
+<!--    // let le = document.querySelector("#mapMarkers span").textContent;-->
+<!--    //-->
+<!--    //-->
+<!--    // // for (let i = 0; i < le.length; i++) {-->
+<!--    // //     // let span = document.querySelector("#item span").innerHTML;-->
+<!--    // //-->
+<!--    // //     let coordinates = le.split(" ")[0];-->
+<!--    // //     let idName = le.split(" ")[1];-->
+<!--    // //     console.log(coordinates, idName)-->
+<!--    // //     // var n = L.marker([coordinates.split(" ")[0], coordinates.split(" ")[1]]).bindPopup('<a href="#">'+ idName.split(" ")[1] +'</a>').addTo(places);-->
+<!--    // //-->
+<!--    // // }-->
+<!--    // //Add places-->
+<!--    // let obj;-->
+<!--    // let infoMarker = document.querySelector("#mapMarkers span");-->
+<!--    // for (let i = 0; i < infoMarker.length; i++) {-->
+<!--    //     obj = infoMarker[i].textContent + " " +  infoMarker[i + 1].textContent;-->
+<!--    //     console.log(obj)-->
+<!--    // }-->
+<!--    // console.log(infoMarker);-->
+<!--    // for (let i = 0, j = 0; i < obj.length ; i++) {-->
+<!--    //     let object = obj.split(" ")[i];-->
+<!--    //-->
+<!--    //     // let m = object.split(" ");-->
+<!--    //     let coordinates = object.split(" ")[0];-->
+<!--    //     let idName = object.split(" ")[1];-->
+<!--    //     // let name = m[1];-->
+<!--    //-->
+<!--    //     console.log(object);-->
+<!--    //     // var place1 = L.marker([m[2], m[3]]).bindPopup('<a href="#">'+ m[1] +'</a>').addTo(places);-->
+<!--    //     // `var  = L.marker([42.69253, 23.329468]).bindPopup('<a href="#">София</a>').addTo(places);`-->
+<!--    // }-->
+
+
+<!--    var Sofia = L.marker([42.69253, 23.329468]).bindPopup('<a href="#">София</a>').addTo(places);-->
+<!--    var Plovdiv = L.marker([42.138431, 24.746704]).bindPopup('<a href="#">Пловдив</a>').addTo(places);-->
+
+<!--    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';-->
+<!--    var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';-->
+
+<!--    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});-->
+<!--    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});-->
+<!--    var satellite = L.tileLayer(mbUrl, {-->
+<!--        id: 'mapbox/satellite-streets-v11',-->
+<!--        tileSize: 512,-->
+<!--        zoomOffset: -1,-->
+<!--        attribution: mbAttr-->
+<!--    });-->
+<!--    var navigation = L.tileLayer(mbUrl, {-->
+<!--        id: 'mapbox/navigation-day-v1',-->
+<!--        tileSize: 512,-->
+<!--        zoomOffset: -1,-->
+<!--        attribution: mbAttr-->
+<!--    });-->
+
+<!--    //Bulgaria location, zoom level and default map-->
+<!--    var map = L.map('map', {-->
+<!--        center: [42.758754, 25.230103],-->
+<!--        zoom: 8,-->
+<!--        layers: [grayscale, places]-->
+<!--    });-->
+
+<!--    var baseLayers = {-->
+<!--        'Светла карта': grayscale,-->
+<!--        'Карта с улици': streets,-->
+<!--        'Сателит': satellite,-->
+<!--        'Навигация': navigation-->
+<!--    };-->
+
+<!--    var overlays = {-->
+<!--        'Забележителности': places-->
+<!--    };-->
+
+<!--    var layerControl = L.control.layers(baseLayers, overlays).addTo(map);-->
+<!--</script>-->
+</body>
+</html>
